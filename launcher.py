@@ -28,21 +28,19 @@ def folder_dialog():
     root = tk.Tk()
     root.withdraw()
     chosen = filedialog.askdirectory(title=title) or ""
-    if out_file:                           # windowed builds have no stdout, so the result goes to a file
+    if out_file:                         
         with open(out_file, "w", encoding="utf-8") as f:
             f.write(chosen)
     elif sys.stdout is not None:
         sys.stdout.write(chosen)
 
 
-# pygame prints a banner on import, so the folder picker has to run before pygame is imported
 if "--pick-folder" in sys.argv:
     folder_dialog()
     sys.exit(0)
 
 import pygame
 
-# ===== SETTINGS AND LAYOUT =====
 GB_GAME_ID = 8694
 VERSION_LINES = ("Friday Night Funkin V-Slice", "PolyMod Launcher 0.2.3")
 SETTINGS_FILE = os.path.join(os.path.expanduser("~"), ".fnf_launcher.json")
@@ -61,17 +59,16 @@ SORT_KEYS = ["default", "newest", "liked", "viewed"]
 SORT_FIELD = {"newest": "date", "liked": "likes", "viewed": "views"}
 
 # ===== FONTS =====
-LANG = "en"                               # set from the settings in App()
-FONT_FILE = {"en": "FunkinOptions.otf"}   # English keeps FunkinOptions
-OTHER_FONT = "difficultyFont.ttf"         # Portuguese, Russian and Spanish
-OTHER_FONT_SCALE = 1.0                    # try 0.9 if those languages look too big next to English
+LANG = "en"                              
+FONT_FILE = {"en": "FunkinOptions.otf"} 
+OTHER_FONT = "difficultyFont.ttf"    
+OTHER_FONT_SCALE = 1.0              
 
 W, H = 1280, 780
 PER_PAGE = 15
-DD_ROWS, DD_ROW = 9, 32                   # dropdown: visible rows and row height
+DD_ROWS, DD_ROW = 9, 32                 
 
 ASSETS = os.path.join(getattr(sys, "_MEIPASS", os.path.dirname(os.path.abspath(__file__))), "assets")
-# the launcher cannot start without these; the others (sounds, music, translated fonts) are optional
 REQUIRED_ASSETS = ["FunkinOptions.otf", "menuDesat.png", "FNF_logo.png", "GameButton.png",
                    "GameButtonSelected.png", "ModsButton.png", "ModsButtonSelected.png",
                    "OptionsButton.png", "OptionsButtonSelected.png", "ButtonMods.png", "ButtonLaunch.png"]
@@ -100,12 +97,10 @@ BROWSE_RECT = pygame.Rect(440, OPT_Y["folder"] - 6, 560, 50)
 COLOR_RECT = pygame.Rect(440, OPT_Y["color"] - 4, 760, 46)
 LANG_ROW = pygame.Rect(440, OPT_Y["lang"] - 4, 760, 46)
 OPT_PANEL = (430, 40, 820, 660)
-BEST_W, BEST_IMG_H = 368, 207            # "Best of today" banner: width and picture height
+BEST_W, BEST_IMG_H = 368, 207     
 BEST_RECT = pygame.Rect(16, 404, BEST_W, 296)
-BEST_WINDOW = 24 * 3600                  # "today" means the last 24 hours
+BEST_WINDOW = 24 * 3600               
 
-# ===== TRANSLATIONS =====
-# Every key has en/pt/ru/es. A missing translation falls back to English.
 STRINGS = {
     "dialog_title": dict(en="Choose the game folder", pt="Escolha a pasta do jogo",
                          ru="Выберите папку с игрой", es="Elige la carpeta del juego"),
@@ -256,7 +251,6 @@ STRINGS = {
     "best_likes": dict(en="Likes: {n}", pt="Curtidas: {n}", ru="Лайков: {n}", es="Me gusta: {n}"),
 }
 
-# ===== HELPERS =====
 def tr(key, **kw):
     entry = STRINGS[key]
     text = entry.get(LANG) or entry["en"]
@@ -270,7 +264,7 @@ def set_language(code):
 
 def font_path():
     path = os.path.join(ASSETS, FONT_FILE.get(LANG, OTHER_FONT))
-    if not os.path.isfile(path):                      # no difficultyFont.ttf yet: keep the launcher running
+    if not os.path.isfile(path):                  
         path = os.path.join(ASSETS, FONT_FILE["en"])
     return path
 
@@ -389,9 +383,8 @@ def find_game(folder):
                 return os.path.join(root, name)
     return None
 
-# ===== MOD DATA (GameBanana) =====
 INDEX_FILE = os.path.join(os.path.expanduser("~"), ".fnf_mods_index.json")
-INDEX_VERSION = 2          # bump when the stored fields change; an older index is rebuilt
+INDEX_VERSION = 2     
 INDEX_LOCK = threading.Lock()
 MAX_INDEX_PAGES = 1000
 COMMON_WORDS = {"fnf", "friday", "night", "funkin"}
@@ -753,7 +746,7 @@ def install_mod(mod, mods_dir, say):
             say(later("st_installed", name=mod["_sName"]))
     os.remove(tmp)
 
-# ===== WINDOW =====
+
 class App:
     def __init__(self):
         pygame.init()
@@ -775,7 +768,7 @@ class App:
         self.games_running = 0
         self.exe = find_game(self.cfg["game_dir"])
         self.query, self.active_query, self.editing = "", "", False
-        self.req = 0                       # id of the newest request; answers to older ones are dropped
+        self.req = 0                     
         self.source, self.hits, self.listing = None, [], False
         self.page, self.mods, self.selected = 1, [], {}
         self.filters = {"cat": "", "sort": "default", "hide": False}
@@ -793,7 +786,6 @@ class App:
         self.apply_music()
         self.load_page()
 
-    # ----- language, fonts and pictures -----
     def change_language(self):
         codes = [c for c, _ in LANGUAGES]
         cur = self.cfg["lang"] if self.cfg["lang"] in codes else "en"
@@ -892,7 +884,7 @@ class App:
         if self.cfg["sfx"] and key in self.sfx:
             self.sfx[key].play()
 
-    # ----- animation helpers -----
+
     def ease(self, key, target, speed=14.0):
         """Moves a stored value toward target. With animations switched off it jumps there at once."""
         cur = self.anim.get(key, target)
@@ -916,7 +908,6 @@ class App:
         t = min(1.0, max(0.0, age / 0.25))
         return 1 - (1 - t) ** 3
 
-    # ----- window and input -----
     def toggle_fullscreen(self):
         self.fullscreen = not self.fullscreen
         try:
@@ -986,7 +977,7 @@ class App:
     def go_tab(self, name):
         self.dropdown = None
         if name != self.tab:
-            self.anim["tab"] = 0.0          # the new page fades in from dark
+            self.anim["tab"] = 0.0      
         self.tab = name
 
     def card_at(self, pos):
@@ -997,7 +988,6 @@ class App:
                 return i
         return None
 
-    # ----- options -----
     def opts_click(self, pos):
         if LANG_ROW.collidepoint(pos):
             return self.change_language()
@@ -1057,7 +1047,6 @@ class App:
         return self.status() if callable(self.status) else (self.status or "")
 
 
-    # ----- mods: clicks -----
     def mods_click(self, pos):
         if CHIP_CAT.collidepoint(pos):
             self.play("select")
@@ -1110,7 +1099,6 @@ class App:
         elif MAN_DELETE.collidepoint(pos):
             self.delete_selected()
 
-    # ----- mods: search, filters and pages -----
     def progress_for(self, rid):
         def progress(msg):
             self.jobs.put(lambda: self.set_status(msg) if rid == self.req else None)
@@ -1204,7 +1192,7 @@ class App:
                 self.apply_view()
             return
         if self.filters_active():
-            self.req += 1                      # a browse page still loading must not replace this list
+            self.req += 1                    
             if self.catalog is None:
                 self.set_status(later("st_loading_list"))
                 return self.ensure_catalog(self.refresh_view)
@@ -1236,7 +1224,6 @@ class App:
         else:
             self.load_page()
 
-    # ----- mods: the full index used by filters -----
     def ensure_catalog(self, then=None):
         """Loads the full mod index once (it is cached on disk), then runs the callbacks waiting for it."""
         if then is not None:
@@ -1272,7 +1259,6 @@ class App:
         self.catalog_busy, self.catalog_waiters = False, []
         self.set_status(later("st_no_connection", e=err))
 
-    # ----- mods: dropdowns for category and sort -----
     def open_dropdown(self, key):
         if key == "cat":
             if self.catalog is None:
@@ -1310,7 +1296,6 @@ class App:
         dd = self.dropdown
         dd["scroll"] = max(0, min(len(dd["items"]) - DD_ROWS, dd["scroll"] + step))
 
-    # ----- covers -----
     def request_covers(self, items):
         for it in items:
             mid = it.get("_idRow")
@@ -1338,7 +1323,6 @@ class App:
             if it.get("_idRow") == mid:
                 it["cover"] = url
 
-    # ----- download -----
     def download(self, mods):
         folder = self.cfg["game_dir"]
         if not os.path.isdir(folder):
@@ -1363,7 +1347,6 @@ class App:
         self.set_status(later("st_downloading", n=len(mods)))
         threading.Thread(target=job, daemon=True).start()
 
-    # ----- installed mods (manage tab) -----
     def open_manage(self):
         if not os.path.isdir(self.cfg["game_dir"]):
             return self.set_status(later("st_choose_game_first"))
@@ -1411,7 +1394,6 @@ class App:
         self.refresh_manage()
         self.set_status(later("st_deleted", n=done))
 
-    # ----- cover pictures from the web -----
     def fetch_cover(self, url):
         if url in self.covers or url in self.loading:
             return
@@ -1435,7 +1417,6 @@ class App:
         except Exception:
             self.covers[url] = False
 
-    # ----- launch -----
     def launch(self):
         if not self.exe:
             return self.set_status(later("st_game_not_found"))
@@ -1458,7 +1439,6 @@ class App:
         self.apply_music()
 
 
-    # ===== DRAWING =====
     def draw(self):
         s = self.screen
         s.blit(self.bg, (0, 0))
@@ -1470,7 +1450,7 @@ class App:
             h = self.ease(("menu", name), 1.0 if on else 0.0, 18.0)
             if h < 1:
                 s.blit(normal, rect)
-            if h > 0:                           # cross-fade into the highlighted picture
+            if h > 0:                          
                 selected.set_alpha(round(255 * h))
                 s.blit(selected, rect)
                 selected.set_alpha(255)
@@ -1484,7 +1464,7 @@ class App:
             self.draw_opts()
         self.draw_best()
         t = self.ease("tab", 1.0, 9.0)
-        if t < 1:                               # the page fades in from dark after a tab change
+        if t < 1:                         
             shade = pygame.Surface((W - 400, H))
             shade.fill(BLACK)
             shade.set_alpha(round(180 * (1 - t)))
@@ -1583,7 +1563,7 @@ class App:
                 name = tr("off_tag") + name
             color = mix(GREY if off else WHITE, BLACK, s)
             self.draw_wrapped(name[:70], self.f_tiny, color, x + 110, y + 8, CARD_W - 118, 3)
-            if r < 1:                           # card still fading in
+            if r < 1:                         
                 shade = pygame.Surface((CARD_W, CARD_H))
                 shade.fill(BLACK)
                 shade.set_alpha(round((1 - r) * 255))
@@ -1763,7 +1743,6 @@ class App:
         img = self.fit_font(label, 22, rect.w - 12).render(label, True, fg)
         self.screen.blit(img, img.get_rect(center=rect.center))
 
-    # ===== MAIN LOOP =====
     def run(self):
         clock = pygame.time.Clock()
         while self.running:
