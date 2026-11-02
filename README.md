@@ -12,7 +12,7 @@ This is an unofficial fan tool. It is not affiliated with the Friday Night Funki
 - Download one or several mods at once. Mods without a zip archive are skipped
 - Manage installed mods: enable, disable or delete them (deleting asks for confirmation)
 - Start the game from the launcher, optionally closing the launcher on start
-- Interface in English, Português (BR), Русский and Español
+- Interface in English, Português (BR), Русский, Español and Bahasa Indonesia
 - Background music, interface sounds, button colors and smooth animations. Sounds and animations can be switched off
 
 ## Requirements
@@ -86,7 +86,7 @@ Optional. The launcher works without these:
 | `BGMusic.mp3` | background music |
 | `CS_select.ogg`, `CS_confirm.ogg` | interface sounds |
 
-To translate the menu pictures, put a picture with the same name into `assets/pt/`, `assets/ru/` or `assets/es/`. It is used only for that language.
+To translate the menu pictures, put a picture with the same name into `assets/pt/`, `assets/ru/`, `assets/es/` or `assets/id/`. It is used only for that language.
 
 ## Project structure
 
