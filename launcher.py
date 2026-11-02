@@ -21,6 +21,7 @@ from concurrent.futures import ThreadPoolExecutor
 def folder_dialog():
     import tkinter as tk
     from tkinter import filedialog
+
     args = sys.argv
     at = args.index("--pick-folder")
     title = args[at + 1] if len(args) > at + 1 else "Choose the game folder"
@@ -28,7 +29,7 @@ def folder_dialog():
     root = tk.Tk()
     root.withdraw()
     chosen = filedialog.askdirectory(title=title) or ""
-    if out_file:                         
+    if out_file:
         with open(out_file, "w", encoding="utf-8") as f:
             f.write(chosen)
     elif sys.stdout is not None:
@@ -44,34 +45,76 @@ import pygame
 GB_GAME_ID = 8694
 VERSION_LINES = ("Friday Night Funkin V-Slice", "PolyMod Launcher 0.2.5")
 SETTINGS_FILE = os.path.join(os.path.expanduser("~"), ".fnf_launcher.json")
-DEFAULT_CFG = {"game_dir": "", "bg_music": True, "sfx": True, "accent": "FDE871",
-               "close_on_play": False, "lang": "en", "animations": True}
-ACCENTS = [("FDE871", "acc_default"), ("31B0D1", "acc_cyan"), ("F9393F", "acc_red"),
-           ("C24B99", "acc_purple"), ("12FA05", "acc_green")]
-OPT_Y = {"head_launcher": 52, "folder": 118, "path": 166, "lang": 206, "close": 258,
-         "head_sfx": 328, "bg_music": 394, "sounds": 446,
-         "head_custom": 514, "color": 580, "anim": 632}
-TOGGLES = [("tog_close", "close_on_play", OPT_Y["close"]),
-           ("tog_bg_music", "bg_music", OPT_Y["bg_music"]), ("tog_sfx", "sfx", OPT_Y["sounds"]),
-           ("tog_anim", "animations", OPT_Y["anim"])]
-LANGUAGES = [("en", "English"), ("pt", "Português (BR)"), ("ru", "Русский"), ("es", "Español")]
+DEFAULT_CFG = {
+    "game_dir": "",
+    "bg_music": True,
+    "sfx": True,
+    "accent": "FDE871",
+    "close_on_play": False,
+    "lang": "en",
+    "animations": True,
+}
+ACCENTS = [
+    ("FDE871", "acc_default"),
+    ("31B0D1", "acc_cyan"),
+    ("F9393F", "acc_red"),
+    ("C24B99", "acc_purple"),
+    ("12FA05", "acc_green"),
+]
+OPT_Y = {
+    "head_launcher": 52,
+    "folder": 118,
+    "path": 166,
+    "lang": 206,
+    "close": 258,
+    "head_sfx": 328,
+    "bg_music": 394,
+    "sounds": 446,
+    "head_custom": 514,
+    "color": 580,
+    "anim": 632,
+}
+TOGGLES = [
+    ("tog_close", "close_on_play", OPT_Y["close"]),
+    ("tog_bg_music", "bg_music", OPT_Y["bg_music"]),
+    ("tog_sfx", "sfx", OPT_Y["sounds"]),
+    ("tog_anim", "animations", OPT_Y["anim"]),
+]
+LANGUAGES = [
+    ("en", "English"),
+    ("pt", "Português (BR)"),
+    ("ru", "Русский"),
+    ("es", "Español"),
+]
 SORT_KEYS = ["default", "newest", "liked", "viewed"]
 SORT_FIELD = {"newest": "date", "liked": "likes", "viewed": "views"}
 
 # ===== FONTS =====
-LANG = "en"                              
-FONT_FILE = {"en": "FunkinOptions.otf"} 
-OTHER_FONT = "difficultyFont.ttf"    
-OTHER_FONT_SCALE = 1.0              
+LANG = "en"
+FONT_FILE = {"en": "FunkinOptions.otf"}
+OTHER_FONT = "difficultyFont.ttf"
+OTHER_FONT_SCALE = 1.0
 
 W, H = 1280, 780
 PER_PAGE = 15
-DD_ROWS, DD_ROW = 9, 32                 
+DD_ROWS, DD_ROW = 9, 32
 
-ASSETS = os.path.join(getattr(sys, "_MEIPASS", os.path.dirname(os.path.abspath(__file__))), "assets")
-REQUIRED_ASSETS = ["FunkinOptions.otf", "menuDesat.png", "FNF_logo.png", "GameButton.png",
-                   "GameButtonSelected.png", "ModsButton.png", "ModsButtonSelected.png",
-                   "OptionsButton.png", "OptionsButtonSelected.png", "ButtonMods.png", "ButtonLaunch.png"]
+ASSETS = os.path.join(
+    getattr(sys, "_MEIPASS", os.path.dirname(os.path.abspath(__file__))), "assets"
+)
+REQUIRED_ASSETS = [
+    "FunkinOptions.otf",
+    "menuDesat.png",
+    "FNF_logo.png",
+    "GameButton.png",
+    "GameButtonSelected.png",
+    "ModsButton.png",
+    "ModsButtonSelected.png",
+    "OptionsButton.png",
+    "OptionsButtonSelected.png",
+    "ButtonMods.png",
+    "ButtonLaunch.png",
+]
 BLACK, WHITE, GREY = (0, 0, 0), (255, 255, 255), (150, 150, 150)
 GREEN, RED = (140, 255, 140), (255, 130, 130)
 CARD_BG, CHIP_BG = (30, 24, 14), (20, 16, 10)
@@ -80,8 +123,11 @@ MODS_DIR, OFF_DIR, META_FILE = "mods", "mods_disabled", "fnf_mod.json"
 COVER_W, COVER_H = 96, 60
 GRID_X, GRID_Y, CARD_W, CARD_H, GAP_X, GAP_Y = 445, 190, 252, 76, 12, 4
 
-MENU = {"game": pygame.Rect(0, 0, 400, 130), "mods": pygame.Rect(0, 130, 400, 130),
-        "opts": pygame.Rect(0, 260, 400, 130)}
+MENU = {
+    "game": pygame.Rect(0, 0, 400, 130),
+    "mods": pygame.Rect(0, 130, 400, 130),
+    "opts": pygame.Rect(0, 260, 400, 130),
+}
 MODS_BTN = pygame.Rect(518, 601, 230, 100)
 LAUNCH_BTN = pygame.Rect(750, 586, 400, 130)
 PANEL = (430, 40, 820, 560)
@@ -97,159 +143,360 @@ BROWSE_RECT = pygame.Rect(440, OPT_Y["folder"] - 6, 560, 50)
 COLOR_RECT = pygame.Rect(440, OPT_Y["color"] - 4, 760, 46)
 LANG_ROW = pygame.Rect(440, OPT_Y["lang"] - 4, 760, 46)
 OPT_PANEL = (430, 40, 820, 660)
-BEST_W, BEST_IMG_H = 368, 207     
+BEST_W, BEST_IMG_H = 368, 207
 BEST_RECT = pygame.Rect(16, 404, BEST_W, 296)
-BEST_WINDOW = 24 * 3600               
+BEST_WINDOW = 24 * 3600
 
 STRINGS = {
-    "dialog_title": dict(en="Choose the game folder", pt="Escolha a pasta do jogo",
-                         ru="Выберите папку с игрой", es="Elige la carpeta del juego"),
-    "st_choose_window": dict(en="Choose the folder in the window...", pt="Escolha a pasta na janela...",
-                             ru="Выберите папку в открывшемся окне...", es="Elige la carpeta en la ventana..."),
-    "st_game_found": dict(en="Game found", pt="Jogo encontrado", ru="Игра найдена", es="Juego encontrado"),
-    "st_no_game_file": dict(en="No game file found in this folder", pt="Nenhum arquivo do jogo nesta pasta",
-                            ru="В этой папке не найден файл игры", es="No se encontró el juego en esta carpeta"),
-    "st_game_not_found": dict(en="Game not found: choose the game folder in OPTIONS",
-                              pt="Jogo não encontrado: escolha a pasta do jogo em OPÇÕES",
-                              ru="Игра не найдена: выберите папку с игрой в НАСТРОЙКАХ",
-                              es="Juego no encontrado: elige la carpeta del juego en OPCIONES"),
-    "st_choose_game_first": dict(en="Choose the game folder in OPTIONS first",
-                                 pt="Antes, escolha a pasta do jogo em OPÇÕES",
-                                 ru="Сначала выберите папку с игрой в НАСТРОЙКАХ",
-                                 es="Primero elige la carpeta del juego en OPCIONES"),
-    "st_searching": dict(en="Searching for: {q}", pt="Buscando: {q}", ru="Ищу: {q}", es="Buscando: {q}"),
-    "st_no_connection": dict(en="No connection to GameBanana: {e}", pt="Sem conexão com o GameBanana: {e}",
-                             ru="Нет связи с GameBanana: {e}", es="Sin conexión con GameBanana: {e}"),
-    "st_loading_mod": dict(en="Loading mod {id}...", pt="Carregando o mod {id}...",
-                           ru="Загружаю мод {id}...", es="Cargando el mod {id}..."),
-    "st_mod_found": dict(en="Mod found, press Download selected",
-                         pt="Mod encontrado, clique em Baixar selecionados",
-                         ru="Мод найден, нажмите «Скачать выбранные»",
-                         es="Mod encontrado, pulsa «Descargar seleccionados»"),
-    "st_mod_unknown": dict(en="Mod added (name unknown), press Download selected",
-                           pt="Mod adicionado (nome desconhecido), clique em Baixar selecionados",
-                           ru="Мод добавлен (название неизвестно), нажмите «Скачать выбранные»",
-                           es="Mod añadido (nombre desconocido), pulsa «Descargar seleccionados»"),
-    "st_found": dict(en="Found {n} mods ({src})", pt="Encontrados {n} mods ({src})",
-                     ru="Найдено модов: {n} ({src})", es="Encontrados {n} mods ({src})"),
-    "src_search": dict(en="GameBanana search", pt="busca no GameBanana", ru="поиск на GameBanana",
-                       es="búsqueda en GameBanana"),
-    "src_list": dict(en="list of {n}", pt="lista de {n}", ru="список из {n}", es="lista de {n}"),
-    "st_building": dict(en="Building the mod list: {n} mods so far", pt="Montando a lista de mods: {n} até agora",
-                        ru="Собираю список модов: пока {n}", es="Creando la lista de mods: {n} hasta ahora"),
-    "st_loading_list": dict(en="Loading the mod list...", pt="Carregando a lista de mods...",
-                            ru="Загружаю список модов...", es="Cargando la lista de mods..."),
-    "st_matches": dict(en="{n} mods match the filters", pt="{n} mods combinam com os filtros",
-                       ru="Подходящих модов: {n}", es="{n} mods cumplen los filtros"),
-    "st_loading_page": dict(en="Loading page {page}...", pt="Carregando a página {page}...",
-                            ru="Загружаю страницу {page}...", es="Cargando la página {page}..."),
-    "st_page": dict(en="Page {page}: {n} mods", pt="Página {page}: {n} mods",
-                    ru="Страница {page}: модов {n}", es="Página {page}: {n} mods"),
-    "st_nothing_selected": dict(en="Nothing selected", pt="Nada selecionado", ru="Ничего не выбрано",
-                                es="Nada seleccionado"),
-    "st_downloading": dict(en="Downloading {n} mod(s)...", pt="Baixando {n} mod(s)...",
-                           ru="Скачиваю модов: {n}...", es="Descargando {n} mod(s)..."),
-    "st_done": dict(en="Done. Mods are in the game's mods folder",
-                    pt="Pronto. Os mods estão na pasta de mods do jogo",
-                    ru="Готово. Моды лежат в папке mods игры",
-                    es="Listo. Los mods están en la carpeta de mods del juego"),
-    "st_no_zip": dict(en="No zip archive: {name}", pt="Nenhum arquivo zip: {name}",
-                      ru="Нет zip-архива: {name}", es="No hay archivo zip: {name}"),
-    "st_already": dict(en="Already installed: {name}", pt="Já instalado: {name}",
-                       ru="Уже установлен: {name}", es="Ya instalado: {name}"),
-    "st_installed": dict(en="Installed: {name}", pt="Instalado: {name}",
-                         ru="Установлен: {name}", es="Instalado: {name}"),
-    "st_error": dict(en="Error ({name}): {e}", pt="Erro ({name}): {e}",
-                     ru="Ошибка ({name}): {e}", es="Error ({name}): {e}"),
-    "st_mods_installed": dict(en="{n} mods installed", pt="{n} mods instalados",
-                              ru="Установлено модов: {n}", es="{n} mods instalados"),
-    "st_confirm_delete": dict(en="Press Confirm delete to remove {n} mod(s)",
-                              pt="Clique em Confirmar exclusão para remover {n} mod(s)",
-                              ru="Нажмите «Подтвердить», чтобы удалить модов: {n}",
-                              es="Pulsa «Confirmar» para eliminar {n} mod(s)"),
-    "st_deleted": dict(en="Deleted {n} mod(s)", pt="Excluído(s) {n} mod(s)",
-                       ru="Удалено модов: {n}", es="Eliminado(s) {n} mod(s)"),
-    "st_switched": dict(en="Switched {n} mod(s)", pt="Alterado(s) {n} mod(s)",
-                        ru="Переключено модов: {n}", es="Cambiado(s) {n} mod(s)"),
-    "st_errors": dict(en=", errors: {n}", pt=", erros: {n}", ru=", ошибок: {n}", es=", errores: {n}"),
-    "st_starting": dict(en="Starting the game...", pt="Iniciando o jogo...", ru="Запускаю игру...",
-                        es="Iniciando el juego..."),
-    "st_no_match": dict(en="Nothing found. Try other words or filters",
-                        pt="Nada encontrado. Tente outras palavras ou filtros",
-                        ru="Ничего не найдено. Попробуйте другие слова или фильтры",
-                        es="No se encontró nada. Prueba otras palabras o filtros"),
-    "mods_search": dict(en="Search results", pt="Resultados da busca", ru="Результаты поиска",
-                        es="Resultados de búsqueda"),
-    "mods_browse": dict(en="GameBanana Mods", pt="Mods do GameBanana", ru="Моды GameBanana",
-                        es="Mods de GameBanana"),
+    "dialog_title": dict(
+        en="Choose the game folder",
+        pt="Escolha a pasta do jogo",
+        ru="Выберите папку с игрой",
+        es="Elige la carpeta del juego",
+    ),
+    "st_choose_window": dict(
+        en="Choose the folder in the window...",
+        pt="Escolha a pasta na janela...",
+        ru="Выберите папку в открывшемся окне...",
+        es="Elige la carpeta en la ventana...",
+    ),
+    "st_game_found": dict(
+        en="Game found", pt="Jogo encontrado", ru="Игра найдена", es="Juego encontrado"
+    ),
+    "st_no_game_file": dict(
+        en="No game file found in this folder",
+        pt="Nenhum arquivo do jogo nesta pasta",
+        ru="В этой папке не найден файл игры",
+        es="No se encontró el juego en esta carpeta",
+    ),
+    "st_game_not_found": dict(
+        en="Game not found: choose the game folder in OPTIONS",
+        pt="Jogo não encontrado: escolha a pasta do jogo em OPÇÕES",
+        ru="Игра не найдена: выберите папку с игрой в НАСТРОЙКАХ",
+        es="Juego no encontrado: elige la carpeta del juego en OPCIONES",
+    ),
+    "st_choose_game_first": dict(
+        en="Choose the game folder in OPTIONS first",
+        pt="Antes, escolha a pasta do jogo em OPÇÕES",
+        ru="Сначала выберите папку с игрой в НАСТРОЙКАХ",
+        es="Primero elige la carpeta del juego en OPCIONES",
+    ),
+    "st_searching": dict(
+        en="Searching for: {q}", pt="Buscando: {q}", ru="Ищу: {q}", es="Buscando: {q}"
+    ),
+    "st_no_connection": dict(
+        en="No connection to GameBanana: {e}",
+        pt="Sem conexão com o GameBanana: {e}",
+        ru="Нет связи с GameBanana: {e}",
+        es="Sin conexión con GameBanana: {e}",
+    ),
+    "st_loading_mod": dict(
+        en="Loading mod {id}...",
+        pt="Carregando o mod {id}...",
+        ru="Загружаю мод {id}...",
+        es="Cargando el mod {id}...",
+    ),
+    "st_mod_found": dict(
+        en="Mod found, press Download selected",
+        pt="Mod encontrado, clique em Baixar selecionados",
+        ru="Мод найден, нажмите «Скачать выбранные»",
+        es="Mod encontrado, pulsa «Descargar seleccionados»",
+    ),
+    "st_mod_unknown": dict(
+        en="Mod added (name unknown), press Download selected",
+        pt="Mod adicionado (nome desconhecido), clique em Baixar selecionados",
+        ru="Мод добавлен (название неизвестно), нажмите «Скачать выбранные»",
+        es="Mod añadido (nombre desconocido), pulsa «Descargar seleccionados»",
+    ),
+    "st_found": dict(
+        en="Found {n} mods ({src})",
+        pt="Encontrados {n} mods ({src})",
+        ru="Найдено модов: {n} ({src})",
+        es="Encontrados {n} mods ({src})",
+    ),
+    "src_search": dict(
+        en="GameBanana search",
+        pt="busca no GameBanana",
+        ru="поиск на GameBanana",
+        es="búsqueda en GameBanana",
+    ),
+    "src_list": dict(
+        en="list of {n}", pt="lista de {n}", ru="список из {n}", es="lista de {n}"
+    ),
+    "st_building": dict(
+        en="Building the mod list: {n} mods so far",
+        pt="Montando a lista de mods: {n} até agora",
+        ru="Собираю список модов: пока {n}",
+        es="Creando la lista de mods: {n} hasta ahora",
+    ),
+    "st_loading_list": dict(
+        en="Loading the mod list...",
+        pt="Carregando a lista de mods...",
+        ru="Загружаю список модов...",
+        es="Cargando la lista de mods...",
+    ),
+    "st_matches": dict(
+        en="{n} mods match the filters",
+        pt="{n} mods combinam com os filtros",
+        ru="Подходящих модов: {n}",
+        es="{n} mods cumplen los filtros",
+    ),
+    "st_loading_page": dict(
+        en="Loading page {page}...",
+        pt="Carregando a página {page}...",
+        ru="Загружаю страницу {page}...",
+        es="Cargando la página {page}...",
+    ),
+    "st_page": dict(
+        en="Page {page}: {n} mods",
+        pt="Página {page}: {n} mods",
+        ru="Страница {page}: модов {n}",
+        es="Página {page}: {n} mods",
+    ),
+    "st_nothing_selected": dict(
+        en="Nothing selected",
+        pt="Nada selecionado",
+        ru="Ничего не выбрано",
+        es="Nada seleccionado",
+    ),
+    "st_downloading": dict(
+        en="Downloading {n} mod(s)...",
+        pt="Baixando {n} mod(s)...",
+        ru="Скачиваю модов: {n}...",
+        es="Descargando {n} mod(s)...",
+    ),
+    "st_done": dict(
+        en="Done. Mods are in the game's mods folder",
+        pt="Pronto. Os mods estão na pasta de mods do jogo",
+        ru="Готово. Моды лежат в папке mods игры",
+        es="Listo. Los mods están en la carpeta de mods del juego",
+    ),
+    "st_no_zip": dict(
+        en="No zip archive: {name}",
+        pt="Nenhum arquivo zip: {name}",
+        ru="Нет zip-архива: {name}",
+        es="No hay archivo zip: {name}",
+    ),
+    "st_already": dict(
+        en="Already installed: {name}",
+        pt="Já instalado: {name}",
+        ru="Уже установлен: {name}",
+        es="Ya instalado: {name}",
+    ),
+    "st_installed": dict(
+        en="Installed: {name}",
+        pt="Instalado: {name}",
+        ru="Установлен: {name}",
+        es="Instalado: {name}",
+    ),
+    "st_error": dict(
+        en="Error ({name}): {e}",
+        pt="Erro ({name}): {e}",
+        ru="Ошибка ({name}): {e}",
+        es="Error ({name}): {e}",
+    ),
+    "st_mods_installed": dict(
+        en="{n} mods installed",
+        pt="{n} mods instalados",
+        ru="Установлено модов: {n}",
+        es="{n} mods instalados",
+    ),
+    "st_confirm_delete": dict(
+        en="Press Confirm delete to remove {n} mod(s)",
+        pt="Clique em Confirmar exclusão para remover {n} mod(s)",
+        ru="Нажмите «Подтвердить», чтобы удалить модов: {n}",
+        es="Pulsa «Confirmar» para eliminar {n} mod(s)",
+    ),
+    "st_deleted": dict(
+        en="Deleted {n} mod(s)",
+        pt="Excluído(s) {n} mod(s)",
+        ru="Удалено модов: {n}",
+        es="Eliminado(s) {n} mod(s)",
+    ),
+    "st_switched": dict(
+        en="Switched {n} mod(s)",
+        pt="Alterado(s) {n} mod(s)",
+        ru="Переключено модов: {n}",
+        es="Cambiado(s) {n} mod(s)",
+    ),
+    "st_errors": dict(
+        en=", errors: {n}", pt=", erros: {n}", ru=", ошибок: {n}", es=", errores: {n}"
+    ),
+    "st_starting": dict(
+        en="Starting the game...",
+        pt="Iniciando o jogo...",
+        ru="Запускаю игру...",
+        es="Iniciando el juego...",
+    ),
+    "st_no_match": dict(
+        en="Nothing found. Try other words or filters",
+        pt="Nada encontrado. Tente outras palavras ou filtros",
+        ru="Ничего не найдено. Попробуйте другие слова или фильтры",
+        es="No se encontró nada. Prueba otras palabras o filtros",
+    ),
+    "mods_search": dict(
+        en="Search results",
+        pt="Resultados da busca",
+        ru="Результаты поиска",
+        es="Resultados de búsqueda",
+    ),
+    "mods_browse": dict(
+        en="GameBanana Mods",
+        pt="Mods do GameBanana",
+        ru="Моды GameBanana",
+        es="Mods de GameBanana",
+    ),
     "page_word": dict(en="page", pt="página", ru="страница", es="página"),
-    "mods_empty": dict(en="Nothing to show. See the status line below",
-                       pt="Nada para mostrar. Veja a linha de status abaixo",
-                       ru="Пусто. Смотрите строку состояния внизу",
-                       es="Nada que mostrar. Mira la línea de estado de abajo"),
-    "search_hint": dict(en="Click here to search mods, then press Enter",
-                        pt="Clique aqui para buscar mods e pressione Enter",
-                        ru="Нажмите здесь, чтобы искать моды, и Enter",
-                        es="Haz clic aquí para buscar mods y pulsa Enter"),
+    "mods_empty": dict(
+        en="Nothing to show. See the status line below",
+        pt="Nada para mostrar. Veja a linha de status abaixo",
+        ru="Пусто. Смотрите строку состояния внизу",
+        es="Nada que mostrar. Mira la línea de estado de abajo",
+    ),
+    "search_hint": dict(
+        en="Click here to search mods, then press Enter",
+        pt="Clique aqui para buscar mods e pressione Enter",
+        ru="Нажмите здесь, чтобы искать моды, и Enter",
+        es="Haz clic aquí para buscar mods y pulsa Enter",
+    ),
     "btn_back": dict(en="Back", pt="Voltar", ru="Назад", es="Atrás"),
     "btn_prev": dict(en="Prev", pt="Anterior", ru="Пред.", es="Anterior"),
     "btn_next": dict(en="Next", pt="Próxima", ru="След.", es="Siguiente"),
-    "btn_download_selected": dict(en="Download selected ({n})", pt="Baixar selecionados ({n})",
-                                  ru="Скачать выбранные ({n})", es="Descargar seleccionados ({n})"),
-    "btn_download_page": dict(en="Download page", pt="Baixar página", ru="Скачать страницу",
-                              es="Descargar página"),
-    "btn_on_off": dict(en="On / Off", pt="Ligar / Desligar", ru="Вкл. / Выкл.", es="Activar / Desactivar"),
+    "btn_download_selected": dict(
+        en="Download selected ({n})",
+        pt="Baixar selecionados ({n})",
+        ru="Скачать выбранные ({n})",
+        es="Descargar seleccionados ({n})",
+    ),
+    "btn_download_page": dict(
+        en="Download page",
+        pt="Baixar página",
+        ru="Скачать страницу",
+        es="Descargar página",
+    ),
+    "btn_on_off": dict(
+        en="On / Off",
+        pt="Ligar / Desligar",
+        ru="Вкл. / Выкл.",
+        es="Activar / Desactivar",
+    ),
     "btn_delete": dict(en="Delete", pt="Excluir", ru="Удалить", es="Eliminar"),
-    "btn_confirm_delete": dict(en="Confirm delete", pt="Confirmar exclusão", ru="Подтвердить", es="Confirmar"),
-    "manage_title": dict(en="Installed mods: {n}", pt="Mods instalados: {n}",
-                         ru="Установленные моды: {n}", es="Mods instalados: {n}"),
-    "manage_empty": dict(en="No installed mods found in the game folder",
-                         pt="Nenhum mod instalado na pasta do jogo",
-                         ru="В папке игры нет установленных модов",
-                         es="No hay mods instalados en la carpeta del juego"),
+    "btn_confirm_delete": dict(
+        en="Confirm delete", pt="Confirmar exclusão", ru="Подтвердить", es="Confirmar"
+    ),
+    "manage_title": dict(
+        en="Installed mods: {n}",
+        pt="Mods instalados: {n}",
+        ru="Установленные моды: {n}",
+        es="Mods instalados: {n}",
+    ),
+    "manage_empty": dict(
+        en="No installed mods found in the game folder",
+        pt="Nenhum mod instalado na pasta do jogo",
+        ru="В папке игры нет установленных модов",
+        es="No hay mods instalados en la carpeta del juego",
+    ),
     "off_tag": dict(en="[OFF] ", pt="[DESLIG.] ", ru="[ВЫКЛ] ", es="[DESACT.] "),
     "flt_category": dict(en="Category", pt="Categoria", ru="Категория", es="Categoría"),
     "flt_all": dict(en="All", pt="Todas", ru="Все", es="Todas"),
     "flt_sort": dict(en="Sort", pt="Ordenar", ru="Сортировка", es="Orden"),
-    "sort_default": dict(en="Default", pt="Padrão", ru="По умолчанию", es="Predeterminado"),
-    "sort_newest": dict(en="Newest", pt="Mais recentes", ru="Новые", es="Más recientes"),
-    "sort_liked": dict(en="Most liked", pt="Mais curtidos", ru="Больше лайков", es="Más gustados"),
-    "sort_viewed": dict(en="Most viewed", pt="Mais vistos", ru="Больше просмотров", es="Más vistos"),
-    "flt_hide": dict(en="Hide installed", pt="Ocultar instalados", ru="Скрыть установленные",
-                     es="Ocultar instalados"),
+    "sort_default": dict(
+        en="Default", pt="Padrão", ru="По умолчанию", es="Predeterminado"
+    ),
+    "sort_newest": dict(
+        en="Newest", pt="Mais recentes", ru="Новые", es="Más recientes"
+    ),
+    "sort_liked": dict(
+        en="Most liked", pt="Mais curtidos", ru="Больше лайков", es="Más gustados"
+    ),
+    "sort_viewed": dict(
+        en="Most viewed", pt="Mais vistos", ru="Больше просмотров", es="Más vistos"
+    ),
+    "flt_hide": dict(
+        en="Hide installed",
+        pt="Ocultar instalados",
+        ru="Скрыть установленные",
+        es="Ocultar instalados",
+    ),
     "flt_reset": dict(en="Reset", pt="Limpar", ru="Сбросить", es="Restablecer"),
     "opt_title": dict(en="Launcher", pt="Launcher", ru="Лаунчер", es="Launcher"),
     "opt_language": dict(en="Language", pt="Idioma", ru="Язык", es="Idioma"),
-    "opt_game_folder": dict(en="Game Folder", pt="Pasta do jogo", ru="Папка игры", es="Carpeta del juego"),
-    "opt_browse": dict(en="Browse...", pt="Procurar...", ru="Обзор...", es="Examinar..."),
-    "opt_no_folder": dict(en="No folder chosen yet", pt="Nenhuma pasta escolhida ainda",
-                          ru="Папка ещё не выбрана", es="Todavía no has elegido carpeta"),
+    "opt_game_folder": dict(
+        en="Game Folder", pt="Pasta do jogo", ru="Папка игры", es="Carpeta del juego"
+    ),
+    "opt_browse": dict(
+        en="Browse...", pt="Procurar...", ru="Обзор...", es="Examinar..."
+    ),
+    "opt_no_folder": dict(
+        en="No folder chosen yet",
+        pt="Nenhuma pasta escolhida ainda",
+        ru="Папка ещё не выбрана",
+        es="Todavía no has elegido carpeta",
+    ),
     "opt_sound": dict(en="SFX", pt="Sons", ru="Звук", es="Sonido"),
-    "opt_custom": dict(en="Customization", pt="Personalização", ru="Оформление", es="Personalización"),
-    "opt_color": dict(en="Buttons Color", pt="Cor dos botões", ru="Цвет кнопок", es="Color de botones"),
-    "tog_bg_music": dict(en="BG Music", pt="Música de fundo", ru="Фоновая музыка", es="Música de fondo"),
-    "tog_sfx": dict(en="Sounds in launcher", pt="Sons do launcher", ru="Звуки в лаунчере",
-                    es="Sonidos del launcher"),
-    "tog_anim": dict(en="Smooth animations", pt="Animações suaves", ru="Плавные анимации",
-                     es="Animaciones suaves"),
-    "tog_close": dict(en="Close launcher on game start", pt="Fechar o launcher ao abrir o jogo",
-                      ru="Закрывать лаунчер при запуске игры", es="Cerrar el launcher al abrir el juego"),
+    "opt_custom": dict(
+        en="Customization", pt="Personalização", ru="Оформление", es="Personalización"
+    ),
+    "opt_color": dict(
+        en="Buttons Color", pt="Cor dos botões", ru="Цвет кнопок", es="Color de botones"
+    ),
+    "tog_bg_music": dict(
+        en="BG Music", pt="Música de fundo", ru="Фоновая музыка", es="Música de fondo"
+    ),
+    "tog_sfx": dict(
+        en="Sounds in launcher",
+        pt="Sons do launcher",
+        ru="Звуки в лаунчере",
+        es="Sonidos del launcher",
+    ),
+    "tog_anim": dict(
+        en="Smooth animations",
+        pt="Animações suaves",
+        ru="Плавные анимации",
+        es="Animaciones suaves",
+    ),
+    "tog_close": dict(
+        en="Close launcher on game start",
+        pt="Fechar o launcher ao abrir o jogo",
+        ru="Закрывать лаунчер при запуске игры",
+        es="Cerrar el launcher al abrir el juego",
+    ),
     "on": dict(en="ON", pt="LIGADO", ru="ВКЛ", es="SÍ"),
     "off": dict(en="OFF", pt="DESLIGADO", ru="ВЫКЛ", es="NO"),
-    "acc_default": dict(en="Default", pt="Padrão", ru="По умолчанию", es="Predeterminado"),
+    "acc_default": dict(
+        en="Default", pt="Padrão", ru="По умолчанию", es="Predeterminado"
+    ),
     "acc_cyan": dict(en="Cyan", pt="Ciano", ru="Голубой", es="Cian"),
     "acc_red": dict(en="Red", pt="Vermelho", ru="Красный", es="Rojo"),
     "acc_purple": dict(en="Purple", pt="Roxo", ru="Фиолетовый", es="Morado"),
     "acc_green": dict(en="Green", pt="Verde", ru="Зелёный", es="Verde"),
     "acc_custom": dict(en="Custom", pt="Personalizado", ru="Свой", es="Personalizado"),
-    "best_title": dict(en="Best of today", pt="Melhor de hoje", ru="Лучший мод дня", es="Lo mejor de hoy"),
-    "best_loading": dict(en="Loading...", pt="Carregando...", ru="Загружаю...", es="Cargando..."),
-    "best_none": dict(en="No mods added today yet", pt="Nenhum mod adicionado hoje ainda",
-                      ru="Сегодня новых модов пока нет", es="Hoy aún no hay mods nuevos"),
-    "best_error": dict(en="Could not load today's best mod", pt="Não foi possível carregar o destaque de hoje",
-                       ru="Не удалось загрузить лучший мод дня", es="No se pudo cargar el mod destacado de hoy"),
-    "best_likes": dict(en="Likes: {n}", pt="Curtidas: {n}", ru="Лайков: {n}", es="Me gusta: {n}"),
+    "best_title": dict(
+        en="Best of today",
+        pt="Melhor de hoje",
+        ru="Лучший мод дня",
+        es="Lo mejor de hoy",
+    ),
+    "best_loading": dict(
+        en="Loading...", pt="Carregando...", ru="Загружаю...", es="Cargando..."
+    ),
+    "best_none": dict(
+        en="No mods added today yet",
+        pt="Nenhum mod adicionado hoje ainda",
+        ru="Сегодня новых модов пока нет",
+        es="Hoy aún no hay mods nuevos",
+    ),
+    "best_error": dict(
+        en="Could not load today's best mod",
+        pt="Não foi possível carregar o destaque de hoje",
+        ru="Не удалось загрузить лучший мод дня",
+        es="No se pudo cargar el mod destacado de hoy",
+    ),
+    "best_likes": dict(
+        en="Likes: {n}", pt="Curtidas: {n}", ru="Лайков: {n}", es="Me gusta: {n}"
+    ),
 }
+
 
 def tr(key, **kw):
     entry = STRINGS[key]
@@ -264,7 +511,7 @@ def set_language(code):
 
 def font_path():
     path = os.path.join(ASSETS, FONT_FILE.get(LANG, OTHER_FONT))
-    if not os.path.isfile(path):                  
+    if not os.path.isfile(path):
         path = os.path.join(ASSETS, FONT_FILE["en"])
     return path
 
@@ -284,7 +531,11 @@ def src_label(kind, total):
 
 
 def missing_assets():
-    return [name for name in REQUIRED_ASSETS if not os.path.isfile(os.path.join(ASSETS, name))]
+    return [
+        name
+        for name in REQUIRED_ASSETS
+        if not os.path.isfile(os.path.join(ASSETS, name))
+    ]
 
 
 def later(key, **kw):
@@ -297,7 +548,7 @@ def found_text(n, kind, total):
 
 
 def hex_rgb(h):
-    return tuple(int(h[i:i + 2], 16) for i in (0, 2, 4))
+    return tuple(int(h[i : i + 2], 16) for i in (0, 2, 4))
 
 
 def tint(img, color):
@@ -309,7 +560,9 @@ def tint(img, color):
 def fit_cover(img, w, h):
     iw, ih = img.get_size()
     s = max(w / iw, h / ih)
-    big = pygame.transform.smoothscale(img, (max(1, round(iw * s)), max(1, round(ih * s))))
+    big = pygame.transform.smoothscale(
+        img, (max(1, round(iw * s)), max(1, round(ih * s)))
+    )
     area = pygame.Rect(0, 0, w, h)
     area.center = big.get_rect().center
     out = pygame.Surface((w, h))
@@ -383,8 +636,9 @@ def find_game(folder):
                 return os.path.join(root, name)
     return None
 
+
 INDEX_FILE = os.path.join(os.path.expanduser("~"), ".fnf_mods_index.json")
-INDEX_VERSION = 2     
+INDEX_VERSION = 2
 INDEX_LOCK = threading.Lock()
 MAX_INDEX_PAGES = 1000
 COMMON_WORDS = {"fnf", "friday", "night", "funkin"}
@@ -395,21 +649,32 @@ def mod_item(r):
     cat = r.get("_aCategory")
     if isinstance(cat, list):
         cat = cat[0] if cat else None
-    return {"_idRow": r.get("_idRow"), "_sName": r.get("_sName") or "", "cover": cover_url(r),
-            "cat": (cat.get("_sName") if isinstance(cat, dict) else "") or "",
-            "date": r.get("_tsDateAdded") or 0, "likes": r.get("_nLikeCount") or 0,
-            "views": r.get("_nViewCount") or 0}
+    return {
+        "_idRow": r.get("_idRow"),
+        "_sName": r.get("_sName") or "",
+        "cover": cover_url(r),
+        "cat": (cat.get("_sName") if isinstance(cat, dict) else "") or "",
+        "date": r.get("_tsDateAdded") or 0,
+        "likes": r.get("_nLikeCount") or 0,
+        "views": r.get("_nViewCount") or 0,
+    }
 
 
 def fetch_mod_page(page):
     url = f"https://gamebanana.com/apiv11/Game/{GB_GAME_ID}/Subfeed?_nPage={page}&_sSort=default"
     records = get_json(url).get("_aRecords", [])
-    return [mod_item(r) for r in records if r.get("_sModelName") == "Mod" and r.get("_idRow")]
+    return [
+        mod_item(r)
+        for r in records
+        if r.get("_sModelName") == "Mod" and r.get("_idRow")
+    ]
 
 
 def subfeed_url(page, perpage=None):
-    url = (f"https://gamebanana.com/apiv11/Game/{GB_GAME_ID}/Subfeed?_nPage={page}"
-           f"&_sSort=default&_csvModelInclusions=Mod")
+    url = (
+        f"https://gamebanana.com/apiv11/Game/{GB_GAME_ID}/Subfeed?_nPage={page}"
+        f"&_sSort=default&_csvModelInclusions=Mod"
+    )
     return url + (f"&_nPerpage={perpage}" if perpage else "")
 
 
@@ -432,15 +697,22 @@ def fetch_best_today(max_pages=3):
         found = 0
         for r in records:
             stamp = max(r.get("_tsDateAdded") or 0, r.get("_tsDateModified") or 0)
-            if (r.get("_sModelName") == "Mod" and r.get("_idRow") and stamp >= cutoff
-                    and not r.get("_bHasContentRatings")):
+            if (
+                r.get("_sModelName") == "Mod"
+                and r.get("_idRow")
+                and stamp >= cutoff
+                and not r.get("_bHasContentRatings")
+            ):
                 fresh[r["_idRow"]] = r
                 found += 1
         if not records or found == 0:
             break
     if not fresh:
         return None
-    top = max(fresh.values(), key=lambda r: (r.get("_nLikeCount") or 0, r.get("_nViewCount") or 0))
+    top = max(
+        fresh.values(),
+        key=lambda r: (r.get("_nLikeCount") or 0, r.get("_nViewCount") or 0),
+    )
     item = mod_item(top)
     item["banner"] = banner_url(top)
     return item
@@ -456,6 +728,8 @@ def compact(text):
 
 def name_matches(query, name):
     q_words = [w for w in words(query) if w not in COMMON_WORDS] or words(query)
+    if not q_words:
+        return False
     n_words = words(name)
     if all(any(w.startswith(q) for w in n_words) for q in q_words):
         return True
@@ -469,19 +743,27 @@ def search_remote(query):
     if not word:
         return hits
     for page in (1, 2, 3):
-        url = (f"https://gamebanana.com/apiv11/Mod/Index?_aFilters[Generic_Game]={GB_GAME_ID}"
-               f"&_aFilters[Generic_Name]={urllib.parse.quote(word)}&_nPage={page}&_nPerpage=50")
+        url = (
+            f"https://gamebanana.com/apiv11/Mod/Index?_aFilters[Generic_Game]={GB_GAME_ID}"
+            f"&_aFilters[Generic_Name]={urllib.parse.quote(word)}&_nPage={page}&_nPerpage=50"
+        )
         records = get_json(url).get("_aRecords", [])
         if not records:
             break
-        hits += [mod_item(r) for r in records if r.get("_idRow") and name_matches(query, r.get("_sName"))]
+        hits += [
+            mod_item(r)
+            for r in records
+            if r.get("_idRow") and name_matches(query, r.get("_sName"))
+        ]
     return hits
 
 
 def list_url(page, perpage):
     if perpage:
-        return (f"https://gamebanana.com/apiv11/Mod/Index?_aFilters[Generic_Game]={GB_GAME_ID}"
-                f"&_nPage={page}&_nPerpage={perpage}")
+        return (
+            f"https://gamebanana.com/apiv11/Mod/Index?_aFilters[Generic_Game]={GB_GAME_ID}"
+            f"&_nPage={page}&_nPerpage={perpage}"
+        )
     return subfeed_url(page)
 
 
@@ -490,9 +772,9 @@ def pick_perpage():
         try:
             if get_json(list_url(1, perpage)).get("_aRecords"):
                 return perpage
-        except urllib.error.HTTPError:
+        except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError):
             pass
-    return None
+    return 50
 
 
 def fetch_page(page, perpage):
@@ -506,6 +788,7 @@ def fetch_page(page, perpage):
             if e.code in (400, 404):
                 return []
             raise
+    return []
 
 
 def read_index():
@@ -523,7 +806,12 @@ def save_index(data):
 
 def build_index(progress):
     old = read_index()
-    if old and old.get("version") == INDEX_VERSION and "next_page" in old and not old.get("complete"):
+    if (
+        old
+        and old.get("version") == INDEX_VERSION
+        and "next_page" in old
+        and not old.get("complete")
+    ):
         mods, page, perpage = old["mods"], old["next_page"], old.get("perpage")
     else:
         mods, page, perpage = [], 1, pick_perpage()
@@ -531,20 +819,35 @@ def build_index(progress):
     with ThreadPoolExecutor(max_workers=6) as pool:
         while page <= MAX_INDEX_PAGES:
             batch = list(range(page, page + 24))
-            complete, added = False, 0
-            for records in pool.map(lambda p: fetch_page(p, perpage), batch):
+            complete, added, last_page = False, 0, page - 1
+            for fetched_page, records in zip(
+                batch, pool.map(lambda p: fetch_page(p, perpage), batch)
+            ):
                 if not records:
                     complete = True
                     break
+                last_page = fetched_page
                 for r in records:
-                    if r.get("_sModelName", "Mod") == "Mod" and r.get("_idRow") and r["_idRow"] not in seen:
+                    if (
+                        r.get("_sModelName", "Mod") == "Mod"
+                        and r.get("_idRow")
+                        and r["_idRow"] not in seen
+                    ):
                         seen.add(r["_idRow"])
                         mods.append(mod_item(r))
                         added += 1
-            page += len(batch)
+            page = last_page + 1
             complete = complete or page > MAX_INDEX_PAGES or added == 0
-            save_index({"version": INDEX_VERSION, "time": time.time(), "complete": complete,
-                        "next_page": page, "perpage": perpage, "mods": mods})
+            save_index(
+                {
+                    "version": INDEX_VERSION,
+                    "time": time.time(),
+                    "complete": complete,
+                    "next_page": page,
+                    "perpage": perpage,
+                    "mods": mods,
+                }
+            )
             progress(later("st_building", n=len(mods)))
             if complete:
                 break
@@ -553,8 +856,12 @@ def build_index(progress):
 
 def load_index(progress):
     data = read_index()
-    if (data and data.get("version") == INDEX_VERSION and data.get("complete", "next_page" not in data)
-            and time.time() - data["time"] < 7 * 24 * 3600):
+    if (
+        data
+        and data.get("version") == INDEX_VERSION
+        and data.get("complete", "next_page" not in data)
+        and time.time() - data["time"] < 7 * 24 * 3600
+    ):
         return data["mods"]
     return build_index(progress)
 
@@ -567,16 +874,22 @@ def search_mods(query, progress):
         hits = search_remote(query)
         if hits:
             return hits, "search", len(hits)
-    except urllib.error.HTTPError:
+    except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError):
         pass
     with INDEX_LOCK:
         mods = load_index(progress)
-    return [dict(m) for m in mods if name_matches(query, m["_sName"])], "list", len(mods)
+    return (
+        [dict(m) for m in mods if name_matches(query, m["_sName"])],
+        "list",
+        len(mods),
+    )
 
 
 def mod_name(mod_id):
-    for url in (f"https://gamebanana.com/apiv11/Mod/{mod_id}/ProfilePage",
-                f"https://gamebanana.com/apiv11/Mod/{mod_id}?_csvProperties=_sName"):
+    for url in (
+        f"https://gamebanana.com/apiv11/Mod/{mod_id}/ProfilePage",
+        f"https://gamebanana.com/apiv11/Mod/{mod_id}?_csvProperties=_sName",
+    ):
         try:
             name = get_json(url).get("_sName")
             if name:
@@ -588,13 +901,15 @@ def mod_name(mod_id):
 
 def mod_files(mod_id):
     error = None
-    for url in (f"https://gamebanana.com/apiv11/Mod/{mod_id}?_csvProperties=_aFiles",
-                f"https://gamebanana.com/apiv11/Mod/{mod_id}/ProfilePage"):
+    for url in (
+        f"https://gamebanana.com/apiv11/Mod/{mod_id}?_csvProperties=_aFiles",
+        f"https://gamebanana.com/apiv11/Mod/{mod_id}/ProfilePage",
+    ):
         try:
             return get_json(url).get("_aFiles") or []
         except Exception as e:
             error = e
-    raise error
+    raise error or RuntimeError("could not load mod files")
 
 
 def cover_url(rec):
@@ -612,7 +927,9 @@ def cover_url(rec):
 def fit_inside(img, w, h):
     iw, ih = img.get_size()
     s = min(w / iw, h / ih)
-    return pygame.transform.smoothscale(img, (max(1, round(iw * s)), max(1, round(ih * s))))
+    return pygame.transform.smoothscale(
+        img, (max(1, round(iw * s)), max(1, round(ih * s)))
+    )
 
 
 def load_icon(path):
@@ -629,7 +946,9 @@ def make_app_icon(path, size=256):
     box = img.get_bounding_rect()
     content = img.subsurface(box).copy()
     s = min(size / box.w, size / box.h)
-    scaled = pygame.transform.smoothscale(content, (max(1, round(box.w * s)), max(1, round(box.h * s))))
+    scaled = pygame.transform.smoothscale(
+        content, (max(1, round(box.w * s)), max(1, round(box.h * s)))
+    )
     icon = pygame.Surface((size, size), pygame.SRCALPHA)
     icon.blit(scaled, scaled.get_rect(center=(size // 2, size // 2)))
     return icon
@@ -655,9 +974,16 @@ def scan_mods(game):
             path = os.path.join(base, name)
             if os.path.isdir(path):
                 meta = read_meta(path)
-                items.append({"path": path, "folder": name, "off": off,
-                              "name": meta.get("name") or name, "cover": meta.get("cover"),
-                              "id": meta.get("id")})
+                items.append(
+                    {
+                        "path": path,
+                        "folder": name,
+                        "off": off,
+                        "name": meta.get("name") or name,
+                        "cover": meta.get("cover"),
+                        "id": meta.get("id"),
+                    }
+                )
     return items
 
 
@@ -700,9 +1026,16 @@ def set_enabled(game, item, enable):
 
 
 def mod_cover(mod_id):
+    """
+    Returns the cover URL. False if the mod has no cover, or None if the request itself failed.
+
+    The caller distinguishes: None --> try again later, False --> abort the request, str --> cache and use.
+    """
     failed = False
-    for url in (f"https://gamebanana.com/apiv11/Mod/{mod_id}?_csvProperties=_aPreviewMedia",
-                f"https://gamebanana.com/apiv11/Mod/{mod_id}/ProfilePage"):
+    for url in (
+        f"https://gamebanana.com/apiv11/Mod/{mod_id}?_csvProperties=_aPreviewMedia",
+        f"https://gamebanana.com/apiv11/Mod/{mod_id}/ProfilePage",
+    ):
         for attempt in range(3):
             try:
                 cover = cover_url(get_json(url))
@@ -729,22 +1062,34 @@ def install_mod(mod, mods_dir, say):
         return
     tmp = os.path.join(tempfile.gettempdir(), safe(zips[0]["_sFile"]))
     download(zips[0]["_sDownloadUrl"], tmp)
-    with zipfile.ZipFile(tmp) as z:
-        names = z.namelist()
-        tops = {n.split("/")[0] for n in names}
-        single = len(tops) == 1 and all("/" in n for n in names)
-        target = tops.pop() if single else safe(mod["_sName"])
-        folder = os.path.join(mods_dir, target)
-        off_folder = os.path.join(os.path.dirname(mods_dir), OFF_DIR, target)
-        if os.path.exists(folder) or os.path.exists(off_folder):
-            say(later("st_already", name=mod["_sName"]))
-        else:
-            z.extractall(mods_dir if single else folder)
-            with open(os.path.join(folder, META_FILE), "w", encoding="utf-8") as f:
-                json.dump({"id": mod["_idRow"], "name": mod["_sName"], "cover": cover_url(mod)},
-                          f, ensure_ascii=False)
-            say(later("st_installed", name=mod["_sName"]))
-    os.remove(tmp)
+    try:
+        with zipfile.ZipFile(tmp) as z:
+            names = z.namelist()
+            tops = {n.split("/")[0] for n in names}
+            single = len(tops) == 1 and all("/" in n for n in names)
+            target = tops.pop() if single else safe(mod["_sName"])
+            folder = os.path.join(mods_dir, target)
+            off_folder = os.path.join(os.path.dirname(mods_dir), OFF_DIR, target)
+            if os.path.exists(folder) or os.path.exists(off_folder):
+                say(later("st_already", name=mod["_sName"]))
+            else:
+                z.extractall(mods_dir if single else folder)
+                with open(os.path.join(folder, META_FILE), "w", encoding="utf-8") as f:
+                    json.dump(
+                        {
+                            "id": mod["_idRow"],
+                            "name": mod["_sName"],
+                            "cover": cover_url(mod),
+                        },
+                        f,
+                        ensure_ascii=False,
+                    )
+                say(later("st_installed", name=mod["_sName"]))
+    finally:
+        try:
+            os.remove(tmp)
+        except OSError:
+            pass
 
 
 class App:
@@ -768,17 +1113,23 @@ class App:
         self.games_running = 0
         self.exe = find_game(self.cfg["game_dir"])
         self.query, self.active_query, self.editing = "", "", False
-        self.req = 0                     
+        self.req = 0
         self.source, self.hits, self.listing = None, [], False
         self.page, self.mods, self.selected = 1, [], {}
         self.filters = {"cat": "", "sort": "default", "hide": False}
         self.dropdown = None
         self.catalog, self.catalog_busy, self.catalog_waiters = None, False, []
-        self.man_items, self.man_sel, self.man_page, self.delete_armed = [], set(), 0, False
+        self.man_items, self.man_sel, self.man_page, self.delete_armed = (
+            [],
+            set(),
+            0,
+            False,
+        )
         self.covers, self.loading = {}, set()
         self.cover_known, self.cover_asked = {}, set()
         self.cover_slots = threading.Semaphore(4)
         self.anim, self.dt, self.reveal_t0 = {}, 0.016, 0
+        self.anim_touch = {}
         self.font_cache = {}
         self.banners = {}
         self.best, self.best_state, self.best_t0 = None, "idle", 0
@@ -819,21 +1170,36 @@ class App:
 
     def load_fonts(self):
         self.f_title, self.f_head = self.sized(70), self.sized(56)
-        self.f_body, self.f_small, self.f_tiny = self.sized(38), self.sized(22), self.sized(16)
+        self.f_body, self.f_small, self.f_tiny = (
+            self.sized(38),
+            self.sized(22),
+            self.sized(16),
+        )
 
     def load_art(self):
         def png(path):
             return pygame.image.load(path).convert_alpha()
 
         self.raw_menu = {
-            "game": (png(art_path("GameButton.png")), png(art_path("GameButtonSelected.png"))),
-            "mods": (png(art_path("ModsButton.png")), png(art_path("ModsButtonSelected.png"))),
-            "opts": (png(art_path("OptionsButton.png")), png(art_path("OptionsButtonSelected.png"))),
+            "game": (
+                png(art_path("GameButton.png")),
+                png(art_path("GameButtonSelected.png")),
+            ),
+            "mods": (
+                png(art_path("ModsButton.png")),
+                png(art_path("ModsButtonSelected.png")),
+            ),
+            "opts": (
+                png(art_path("OptionsButton.png")),
+                png(art_path("OptionsButtonSelected.png")),
+            ),
         }
         self.raw_launch = png(art_path("ButtonLaunch.png"))
         self.mods_img = png(art_path("ButtonMods.png"))
         logo = png(os.path.join(ASSETS, "FNF_logo.png"))
-        self.logo = pygame.transform.smoothscale(logo, (690, round(690 * logo.get_height() / logo.get_width())))
+        self.logo = pygame.transform.smoothscale(
+            logo, (690, round(690 * logo.get_height() / logo.get_width()))
+        )
 
     def load_assets(self):
         self.load_fonts()
@@ -842,12 +1208,18 @@ class App:
         bw = round(raw.get_width() * H / raw.get_height())
         base = pygame.transform.smoothscale(raw, (bw, H))
         base = base.subsurface(pygame.Rect((bw - W) // 2, 0, W, H)).copy()
-        avg = sum(pygame.transform.average_color(base, pygame.Rect(0, 0, 60, 60))[:3]) // 3
+        avg = (
+            sum(pygame.transform.average_color(base, pygame.Rect(0, 0, 60, 60))[:3])
+            // 3
+        )
         base.fill((255 - avg,) * 3, special_flags=pygame.BLEND_RGB_ADD)
         self.bg_base = base
         self.sfx = {}
         if pygame.mixer.get_init():
-            for key, name in (("select", "CS_select.ogg"), ("confirm", "CS_confirm.ogg")):
+            for key, name in (
+                ("select", "CS_select.ogg"),
+                ("confirm", "CS_confirm.ogg"),
+            ):
                 try:
                     self.sfx[key] = pygame.mixer.Sound(os.path.join(ASSETS, name))
                 except (pygame.error, OSError):
@@ -856,7 +1228,9 @@ class App:
 
     def build_tints(self):
         self.accent = hex_rgb(self.cfg["accent"])
-        self.menu = {k: (n, tint(s, self.accent)) for k, (n, s) in self.raw_menu.items()}
+        self.menu = {
+            k: (n, tint(s, self.accent)) for k, (n, s) in self.raw_menu.items()
+        }
         self.launch_img = tint(self.raw_launch, self.accent)
         img = tint(self.bg_base, self.accent)
         shade = pygame.Surface((W - 400, H), pygame.SRCALPHA)
@@ -884,7 +1258,6 @@ class App:
         if self.cfg["sfx"] and key in self.sfx:
             self.sfx[key].play()
 
-
     def ease(self, key, target, speed=14.0):
         """Moves a stored value toward target. With animations switched off it jumps there at once."""
         cur = self.anim.get(key, target)
@@ -895,6 +1268,7 @@ class App:
         else:
             cur = target
         self.anim[key] = cur
+        self.anim_touch[key] = pygame.time.get_ticks()
         return cur
 
     def restart_reveal(self):
@@ -915,7 +1289,9 @@ class App:
         except pygame.error:
             ok = False
         if not ok:
-            flags = pygame.SCALED | (pygame.FULLSCREEN if self.fullscreen else pygame.RESIZABLE)
+            flags = pygame.SCALED | (
+                pygame.FULLSCREEN if self.fullscreen else pygame.RESIZABLE
+            )
             pygame.display.set_mode((W, H), flags)
         self.screen = pygame.display.get_surface()
         pygame.key.start_text_input()
@@ -927,7 +1303,12 @@ class App:
             self.toggle_fullscreen()
         elif e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE and self.dropdown:
             self.dropdown = None
-        elif e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE and self.fullscreen and not self.editing:
+        elif (
+            e.type == pygame.KEYDOWN
+            and e.key == pygame.K_ESCAPE
+            and self.fullscreen
+            and not self.editing
+        ):
             self.toggle_fullscreen()
         elif e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
             self.on_click(e.pos)
@@ -977,7 +1358,7 @@ class App:
     def go_tab(self, name):
         self.dropdown = None
         if name != self.tab:
-            self.anim["tab"] = 0.0      
+            self.anim["tab"] = 0.0
         self.tab = name
 
     def card_at(self, pos):
@@ -1022,17 +1403,20 @@ class App:
 
         def job():
             path = pick_folder(title)
-            self.jobs.put(lambda: self.set_game_dir(path))
+            exe = find_game(path) if path else None
+            self.jobs.put(lambda: self.set_game_dir(path, exe))
 
         self.set_status(later("st_choose_window"))
         threading.Thread(target=job, daemon=True).start()
 
-    def set_game_dir(self, path):
+    def set_game_dir(self, path, exe=None):
         if path:
             self.cfg["game_dir"] = path
             self.save()
-            self.exe = find_game(path)
-            self.set_status(later("st_game_found") if self.exe else later("st_no_game_file"))
+            self.exe = exe
+            self.set_status(
+                later("st_game_found") if self.exe else later("st_no_game_file")
+            )
 
     def save(self):
         with open(SETTINGS_FILE, "w", encoding="utf-8") as f:
@@ -1045,7 +1429,6 @@ class App:
 
     def status_text(self):
         return self.status() if callable(self.status) else (self.status or "")
-
 
     def mods_click(self, pos):
         if CHIP_CAT.collidepoint(pos):
@@ -1091,7 +1474,9 @@ class App:
         elif MAN_PREV.collidepoint(pos) and self.man_page > 0:
             self.man_page -= 1
             self.restart_reveal()
-        elif MAN_NEXT.collidepoint(pos) and (self.man_page + 1) * PER_PAGE < len(self.man_items):
+        elif MAN_NEXT.collidepoint(pos) and (self.man_page + 1) * PER_PAGE < len(
+            self.man_items
+        ):
             self.man_page += 1
             self.restart_reveal()
         elif MAN_TOGGLE.collidepoint(pos):
@@ -1102,6 +1487,7 @@ class App:
     def progress_for(self, rid):
         def progress(msg):
             self.jobs.put(lambda: self.set_status(msg) if rid == self.req else None)
+
         return progress
 
     def request_failed(self, rid, err):
@@ -1125,8 +1511,11 @@ class App:
         def job():
             try:
                 hits, kind, total = search_mods(q, self.progress_for(rid))
-                self.jobs.put(lambda: self.show_hits(
-                    rid, hits, lambda n: found_text(n, kind, total)))
+                self.jobs.put(
+                    lambda: self.show_hits(
+                        rid, hits, lambda n: found_text(n, kind, total)
+                    )
+                )
             except Exception as e:
                 err = e
                 self.jobs.put(lambda: self.request_failed(rid, err))
@@ -1141,10 +1530,25 @@ class App:
 
         def job():
             name = mod_name(mod_id)
-            rec = {"_idRow": mod_id, "_sName": name or f"Mod {mod_id}", "cover": None,
-                   "cat": "", "date": 0, "likes": 0, "views": 0}
-            self.jobs.put(lambda: self.show_hits(
-                rid, [rec], lambda n: later("st_mod_found") if name else later("st_mod_unknown")))
+            now = int(time.time())
+            rec = {
+                "_idRow": mod_id,
+                "_sName": name or f"Mod {mod_id}",
+                "cover": None,
+                "cat": "",
+                "date": now,
+                "likes": 0,
+                "views": 0,
+            }
+            self.jobs.put(
+                lambda: self.show_hits(
+                    rid,
+                    [rec],
+                    lambda n: (
+                        later("st_mod_found") if name else later("st_mod_unknown")
+                    ),
+                )
+            )
 
         threading.Thread(target=job, daemon=True).start()
 
@@ -1192,7 +1596,7 @@ class App:
                 self.apply_view()
             return
         if self.filters_active():
-            self.req += 1                    
+            self.req += 1
             if self.catalog is None:
                 self.set_status(later("st_loading_list"))
                 return self.ensure_catalog(self.refresh_view)
@@ -1202,7 +1606,11 @@ class App:
         self.load_page()
 
     def apply_view(self):
-        ids, names = installed_keys(self.cfg["game_dir"]) if self.filters["hide"] else (set(), set())
+        ids, names = (
+            installed_keys(self.cfg["game_dir"])
+            if self.filters["hide"]
+            else (set(), set())
+        )
         self.hits = filter_mods(self.source or [], self.filters, ids, names)
         self.listing = True
         self.show_hit_page()
@@ -1210,7 +1618,7 @@ class App:
         self.set_status(later("st_matches", n=len(self.hits)))
 
     def show_hit_page(self):
-        self.mods = self.hits[(self.page - 1) * PER_PAGE:self.page * PER_PAGE]
+        self.mods = self.hits[(self.page - 1) * PER_PAGE : self.page * PER_PAGE]
         self.request_covers(self.mods)
 
     def change_page(self, step):
@@ -1256,16 +1664,21 @@ class App:
         self.ensure_catalog()
 
     def catalog_failed(self, err):
-        self.catalog_busy, self.catalog_waiters = False, []
+        self.catalog_busy = False
+        self.catalog_waiters = []
         self.set_status(later("st_no_connection", e=err))
 
     def open_dropdown(self, key):
         if key == "cat":
             if self.catalog is None:
                 self.set_status(later("st_loading_list"))
-                return self.ensure_catalog(lambda: self.open_dropdown("cat"))
+                if not self.catalog_busy:
+                    self.ensure_catalog(lambda: self.open_dropdown("cat"))
+                return
             counts = Counter(m.get("cat") for m in self.catalog if m.get("cat"))
-            items = [("", tr("flt_all"))] + [(c, f"{c} ({n})") for c, n in counts.most_common()]
+            items = [("", tr("flt_all"))] + [
+                (c, f"{c} ({n})") for c, n in counts.most_common()
+            ]
             rect = CHIP_CAT
         else:
             items = [(k, tr("sort_" + k)) for k in SORT_KEYS]
@@ -1283,7 +1696,7 @@ class App:
         box = self.dd_box()
         if not box.collidepoint(pos):
             return False
-        visible = dd["items"][dd["scroll"]:dd["scroll"] + DD_ROWS]
+        visible = dd["items"][dd["scroll"] : dd["scroll"] + DD_ROWS]
         i = (pos[1] - box.y - 2) // DD_ROW
         if 0 <= i < len(visible):
             self.filters[dd["key"]] = visible[i][0]
@@ -1305,7 +1718,9 @@ class App:
                 it["cover"] = self.cover_known[mid]
             elif mid not in self.cover_asked:
                 self.cover_asked.add(mid)
-                threading.Thread(target=self.cover_job, args=(mid,), daemon=True).start()
+                threading.Thread(
+                    target=self.cover_job, args=(mid,), daemon=True
+                ).start()
 
     def cover_job(self, mid):
         with self.cover_slots:
@@ -1358,7 +1773,9 @@ class App:
 
     def refresh_manage(self):
         self.man_items = scan_mods(self.cfg["game_dir"])
-        self.man_page = min(self.man_page, max(0, (len(self.man_items) - 1) // PER_PAGE))
+        self.man_page = min(
+            self.man_page, max(0, (len(self.man_items) - 1) // PER_PAGE)
+        )
 
     def toggle_selected(self):
         if not self.man_sel:
@@ -1373,7 +1790,10 @@ class App:
                     errors += 1
         self.man_sel = set()
         self.refresh_manage()
-        self.set_status(lambda: tr("st_switched", n=done) + (tr("st_errors", n=errors) if errors else ""))
+        self.set_status(
+            lambda: tr("st_switched", n=done)
+            + (tr("st_errors", n=errors) if errors else "")
+        )
 
     def delete_selected(self):
         if not self.man_sel:
@@ -1410,8 +1830,14 @@ class App:
 
     def cover_ready(self, url, data):
         self.loading.discard(url)
+        if not data:
+            self.covers[url] = False
+            return
         try:
-            ext = os.path.splitext(urllib.parse.urlparse(url).path)[1][1:].lower() or "jpg"
+            ext = (
+                os.path.splitext(urllib.parse.urlparse(url).path)[1][1:].lower()
+                or "jpg"
+            )
             img = pygame.image.load(io.BytesIO(data), "cover." + ext).convert()
             self.covers[url] = fit_cover(img, COVER_W, COVER_H)
         except Exception:
@@ -1438,7 +1864,6 @@ class App:
         self.games_running = max(0, self.games_running - 1)
         self.apply_music()
 
-
     def draw(self):
         s = self.screen
         s.blit(self.bg, (0, 0))
@@ -1450,7 +1875,7 @@ class App:
             h = self.ease(("menu", name), 1.0 if on else 0.0, 18.0)
             if h < 1:
                 s.blit(normal, rect)
-            if h > 0:                          
+            if h > 0:
                 selected.set_alpha(round(255 * h))
                 s.blit(selected, rect)
                 selected.set_alpha(255)
@@ -1464,7 +1889,7 @@ class App:
             self.draw_opts()
         self.draw_best()
         t = self.ease("tab", 1.0, 9.0)
-        if t < 1:                         
+        if t < 1:
             shade = pygame.Surface((W - 400, H))
             shade.fill(BLACK)
             shade.set_alpha(round(180 * (1 - t)))
@@ -1473,37 +1898,73 @@ class App:
         self.text(VERSION_LINES[1], self.f_small, GREY, 24, 744)
         fade = 255
         if self.cfg["animations"]:
-            fade = min(255, round((pygame.time.get_ticks() - self.status_t0) * 255 / 300))
+            fade = min(
+                255, round((pygame.time.get_ticks() - self.status_t0) * 255 / 300)
+            )
         self.text(self.status_text(), self.f_small, self.accent, 440, 735, fade)
 
     def draw_game(self):
-        k = 1 + 0.012 * math.sin(pygame.time.get_ticks() / 250) if self.cfg["animations"] else 1.0
+        k = (
+            1 + 0.012 * math.sin(pygame.time.get_ticks() / 250)
+            if self.cfg["animations"]
+            else 1.0
+        )
         w, h = int(self.logo.get_width() * k), int(self.logo.get_height() * k)
-        self.screen.blit(pygame.transform.smoothscale(self.logo, (w, h)), (855 - w // 2, 354 - h // 2))
+        self.screen.blit(
+            pygame.transform.smoothscale(self.logo, (w, h)),
+            (855 - w // 2, 354 - h // 2),
+        )
         self.screen.blit(self.mods_img, MODS_BTN)
         self.screen.blit(self.launch_img, LAUNCH_BTN)
 
     def draw_mods(self):
         self.panel(*PANEL)
         title = tr("mods_search") if self.active_query else tr("mods_browse")
-        self.text(f"{title} - {tr('page_word')} {self.page}", self.f_body, self.accent, 455, 44)
+        self.text(
+            f"{title} - {tr('page_word')} {self.page}",
+            self.f_body,
+            self.accent,
+            455,
+            44,
+        )
         self.draw_search()
         self.draw_filters()
         if not self.mods:
-            empty = tr("st_no_match") if (self.listing and self.source is not None) else tr("mods_empty")
+            empty = (
+                tr("st_no_match")
+                if (self.listing and self.source is not None)
+                else tr("mods_empty")
+            )
             self.text(empty, self.f_small, GREY, 455, 200)
         self.draw_cards(self.mods, lambda it: it.get("_idRow") in self.selected)
         self.button(CAT_PREV, tr("btn_prev"), BLACK, WHITE)
         self.button(CAT_NEXT, tr("btn_next"), BLACK, WHITE)
-        self.button(CAT_PICK, tr("btn_download_selected", n=len(self.selected)), self.accent, BLACK)
+        self.button(
+            CAT_PICK,
+            tr("btn_download_selected", n=len(self.selected)),
+            self.accent,
+            BLACK,
+        )
         self.button(CAT_ALL, tr("btn_download_page"), BLACK, WHITE)
         self.draw_dropdown()
 
     def draw_filters(self):
         f = self.filters
-        self.chip(CHIP_CAT, f"{tr('flt_category')}: {f['cat'] or tr('flt_all')}", bool(f["cat"]))
-        self.chip(CHIP_SORT, f"{tr('flt_sort')}: {tr('sort_' + f['sort'])}", f["sort"] != "default")
-        self.chip(CHIP_HIDE, f"{tr('flt_hide')}: {tr('on') if f['hide'] else tr('off')}", f["hide"])
+        self.chip(
+            CHIP_CAT,
+            f"{tr('flt_category')}: {f['cat'] or tr('flt_all')}",
+            bool(f["cat"]),
+        )
+        self.chip(
+            CHIP_SORT,
+            f"{tr('flt_sort')}: {tr('sort_' + f['sort'])}",
+            f["sort"] != "default",
+        )
+        self.chip(
+            CHIP_HIDE,
+            f"{tr('flt_hide')}: {tr('on') if f['hide'] else tr('off')}",
+            f["hide"],
+        )
         self.chip(CHIP_RESET, tr("flt_reset"), False)
 
     def chip(self, rect, label, active):
@@ -1522,7 +1983,9 @@ class App:
         pygame.draw.rect(self.screen, self.accent, box, 2)
         mouse = pygame.mouse.get_pos()
         current = self.filters[dd["key"]]
-        for i, (value, label) in enumerate(dd["items"][dd["scroll"]:dd["scroll"] + DD_ROWS]):
+        for i, (value, label) in enumerate(
+            dd["items"][dd["scroll"] : dd["scroll"] + DD_ROWS]
+        ):
             row = pygame.Rect(box.x + 2, box.y + 2 + i * DD_ROW, box.w - 4, DD_ROW)
             hot = row.collidepoint(mouse)
             if hot:
@@ -1533,17 +1996,27 @@ class App:
 
     def draw_manage(self):
         self.panel(*PANEL)
-        self.text(tr("manage_title", n=len(self.man_items)), self.f_body, self.accent, 455, 44)
+        self.text(
+            tr("manage_title", n=len(self.man_items)), self.f_body, self.accent, 455, 44
+        )
         if not self.man_items:
             self.text(tr("manage_empty"), self.f_small, GREY, 455, 200)
         start = self.man_page * PER_PAGE
-        self.draw_cards(self.man_items[start:start + PER_PAGE], lambda it: it["path"] in self.man_sel,
-                        picture=self.draw_installed_picture)
+        self.draw_cards(
+            self.man_items[start : start + PER_PAGE],
+            lambda it: it["path"] in self.man_sel,
+            picture=self.draw_installed_picture,
+        )
         self.button(MAN_BACK, tr("btn_back"), BLACK, WHITE)
         self.button(MAN_PREV, tr("btn_prev"), BLACK, WHITE)
         self.button(MAN_NEXT, tr("btn_next"), BLACK, WHITE)
         self.button(MAN_TOGGLE, tr("btn_on_off"), self.accent, BLACK)
-        self.button(MAN_DELETE, tr("btn_confirm_delete") if self.delete_armed else tr("btn_delete"), RED, WHITE)
+        self.button(
+            MAN_DELETE,
+            tr("btn_confirm_delete") if self.delete_armed else tr("btn_delete"),
+            RED,
+            WHITE,
+        )
 
     def draw_cards(self, items, is_selected, picture=None):
         for i, it in enumerate(items):
@@ -1551,8 +2024,12 @@ class App:
             x = GRID_X + (i % 3) * (CARD_W + GAP_X)
             y = GRID_Y + (i // 3) * (CARD_H + GAP_Y) + round((1 - r) * 14)
             sel, off = is_selected(it), bool(it.get("off"))
-            s = self.ease(("sel", it.get("_idRow") or it.get("path")), 1.0 if sel else 0.0, 14.0)
-            pygame.draw.rect(self.screen, mix(CARD_BG, self.accent, s), (x, y, CARD_W, CARD_H))
+            s = self.ease(
+                ("sel", it.get("_idRow") or it.get("path")), 1.0 if sel else 0.0, 14.0
+            )
+            pygame.draw.rect(
+                self.screen, mix(CARD_BG, self.accent, s), (x, y, CARD_W, CARD_H)
+            )
             rect = pygame.Rect(x + 6, y + 8, COVER_W, COVER_H)
             if picture:
                 picture(it, rect)
@@ -1562,8 +2039,10 @@ class App:
             if off:
                 name = tr("off_tag") + name
             color = mix(GREY if off else WHITE, BLACK, s)
-            self.draw_wrapped(name[:70], self.f_tiny, color, x + 110, y + 8, CARD_W - 118, 3)
-            if r < 1:                         
+            self.draw_wrapped(
+                name[:70], self.f_tiny, color, x + 110, y + 8, CARD_W - 118, 3
+            )
+            if r < 1:
                 shade = pygame.Surface((CARD_W, CARD_H))
                 shade.fill(BLACK)
                 shade.set_alpha(round((1 - r) * 255))
@@ -1588,7 +2067,8 @@ class App:
             self.fetch_cover(url)
         pygame.draw.rect(self.screen, (40, 32, 18), rect)
 
-    def draw_wrapped(self, text, font, color, x, y, width, max_lines, line_h=20):
+    def draw_wrapped(self, text, font, color, x, y, width, max_lines, line_h=None):
+        line_h = line_h or font.get_linesize()
         lines, line = [], ""
         for word in text.split():
             trial = f"{line} {word}".strip()
@@ -1607,7 +2087,13 @@ class App:
         pygame.draw.rect(self.screen, CHIP_BG, r)
         pygame.draw.rect(self.screen, self.accent if self.editing else GREY, r, 2)
         if self.query or self.editing:
-            self.text((self.query + ("|" if self.editing else ""))[-60:], self.f_small, WHITE, r.x + 10, r.y + 11)
+            self.text(
+                (self.query + ("|" if self.editing else ""))[-60:],
+                self.f_small,
+                WHITE,
+                r.x + 10,
+                r.y + 11,
+            )
         else:
             self.text(tr("search_hint"), self.f_small, GREY, r.x + 10, r.y + 11)
 
@@ -1622,16 +2108,33 @@ class App:
             self.text(tr("opt_no_folder"), self.f_small, GREY, 444, OPT_Y["path"])
         else:
             shown = path if len(path) <= 70 else "..." + path[-67:]
-            self.text(shown, self.f_small, GREEN if self.exe else RED, 444, OPT_Y["path"])
-        self.opt_row(OPT_Y["lang"], tr("opt_language"), dict(LANGUAGES)[LANG], self.accent)
+            self.text(
+                shown, self.f_small, GREEN if self.exe else RED, 444, OPT_Y["path"]
+            )
+        self.opt_row(
+            OPT_Y["lang"],
+            tr("opt_language"),
+            dict(LANGUAGES).get(LANG, LANG),
+            self.accent,
+        )
         self.text(tr("opt_sound"), self.f_head, WHITE, 455, OPT_Y["head_sfx"])
         for label_key, key, y in TOGGLES:
             on = self.cfg[key]
             t = self.ease(("tog", key), 1.0 if on else 0.0, 14.0)
-            self.opt_row(y, tr(label_key), tr("on") if on else tr("off"), mix(GREY, self.accent, t))
+            self.opt_row(
+                y,
+                tr(label_key),
+                tr("on") if on else tr("off"),
+                mix(GREY, self.accent, t),
+            )
         self.text(tr("opt_custom"), self.f_head, WHITE, 455, OPT_Y["head_custom"])
         name = tr(dict(ACCENTS).get(self.cfg["accent"], "acc_custom"))
-        self.opt_row(OPT_Y["color"], tr("opt_color"), f"#{self.cfg['accent']} ({name})", self.accent)
+        self.opt_row(
+            OPT_Y["color"],
+            tr("opt_color"),
+            f"#{self.cfg['accent']} ({name})",
+            self.accent,
+        )
 
     def opt_row(self, y, label, value, value_color):
         label += ": "
@@ -1654,9 +2157,14 @@ class App:
         self.play("select")
 
     def maybe_load_best(self):
-        """Loads the best mod of today; it is refreshed after 15 minutes."""
-        fresh = time.time() - self.best_t0 < 15 * 60
-        if self.best_state == "loading" or (fresh and self.best_state != "idle"):
+        """Loads the best mod of today; it is refreshed after 15 minutes, and retried after 30s on failure."""
+        if self.best_state == "loading":
+            return
+        if self.best_state == "ready" and time.time() - self.best_t0 < 15 * 60:
+            return
+        if self.best_state == "error" and time.time() - self.best_t0 < 30:
+            return
+        if self.best_state == "empty" and time.time() - self.best_t0 < 5 * 60:
             return
         self.best_state, self.best_t0 = "loading", time.time()
 
@@ -1673,6 +2181,7 @@ class App:
     def best_ready(self, rec, failed=False):
         self.best = rec
         self.best_state = "error" if failed else ("ready" if rec else "empty")
+        self.best_t0 = time.time()
 
     def fetch_banner(self, url):
         key = ("banner", url)
@@ -1691,8 +2200,14 @@ class App:
 
     def banner_ready(self, url, data):
         self.loading.discard(("banner", url))
+        if not data:
+            self.banners[url] = False
+            return
         try:
-            ext = os.path.splitext(urllib.parse.urlparse(url).path)[1][1:].lower() or "jpg"
+            ext = (
+                os.path.splitext(urllib.parse.urlparse(url).path)[1][1:].lower()
+                or "jpg"
+            )
             img = pygame.image.load(io.BytesIO(data), "banner." + ext).convert()
             self.banners[url] = fit_cover(img, BEST_W, BEST_IMG_H)
         except Exception:
@@ -1709,22 +2224,46 @@ class App:
             if img:
                 self.screen.blit(img, box.topleft)
             else:
-                pygame.draw.rect(self.screen, (40, 32, 18), (box.x, box.y, BEST_W, BEST_IMG_H))
+                pygame.draw.rect(
+                    self.screen, (40, 32, 18), (box.x, box.y, BEST_W, BEST_IMG_H)
+                )
                 if url:
                     self.fetch_banner(url)
-            tag = self.fit_font(tr("best_title"), 22, BEST_W - 40).render(tr("best_title"), True, BLACK)
-            tag_box = pygame.Rect(box.x + 8, box.y + 8, tag.get_width() + 16, tag.get_height() + 6)
+            tag = self.fit_font(tr("best_title"), 22, BEST_W - 40).render(
+                tr("best_title"), True, BLACK
+            )
+            tag_box = pygame.Rect(
+                box.x + 8, box.y + 8, tag.get_width() + 16, tag.get_height() + 6
+            )
             pygame.draw.rect(self.screen, self.accent, tag_box)
             self.screen.blit(tag, tag.get_rect(center=tag_box.center))
-            self.draw_wrapped(self.best["_sName"], self.f_small, WHITE, box.x + 10,
-                              box.y + BEST_IMG_H + 8, BEST_W - 20, 2, line_h=26)
-            self.text(tr("best_likes", n=self.best.get("likes", 0)), self.f_tiny, GREY,
-                      box.x + 10, box.bottom - 24)
+            self.draw_wrapped(
+                self.best["_sName"],
+                self.f_small,
+                WHITE,
+                box.x + 10,
+                box.y + BEST_IMG_H + 8,
+                BEST_W - 20,
+                2,
+                line_h=26,
+            )
+            self.text(
+                tr("best_likes", n=self.best.get("likes", 0)),
+                self.f_tiny,
+                GREY,
+                box.x + 10,
+                box.bottom - 24,
+            )
         else:
-            key = {"idle": "best_loading", "loading": "best_loading", "error": "best_error"}.get(
-                self.best_state, "best_none")
+            key = {
+                "idle": "best_loading",
+                "loading": "best_loading",
+                "error": "best_error",
+            }.get(self.best_state, "best_none")
             self.text(tr(key), self.f_small, GREY, box.x + 10, box.y + 10)
-        pygame.draw.rect(self.screen, self.accent if sel else GREY, box, 3 if sel else 1)
+        pygame.draw.rect(
+            self.screen, self.accent if sel else GREY, box, 3 if sel else 1
+        )
 
     def text(self, s, font, color, x, y, alpha=255):
         if s:
@@ -1745,6 +2284,7 @@ class App:
 
     def run(self):
         clock = pygame.time.Clock()
+        last_prune = pygame.time.get_ticks()
         while self.running:
             self.dt = min(clock.tick(60) / 1000, 0.05)
             self.maybe_load_best()
@@ -1754,13 +2294,24 @@ class App:
                 self.jobs.get()()
             self.draw()
             pygame.display.flip()
+            now = pygame.time.get_ticks()
+            if now - last_prune > 1000:
+                cutoff = now - 2000
+                stale = [k for k, t in self.anim_touch.items() if t < cutoff]
+                for k in stale:
+                    self.anim.pop(k, None)
+                    self.anim_touch.pop(k, None)
+                last_prune = now
         pygame.quit()
 
 
 if __name__ == "__main__":
     missing = missing_assets()
     if missing:
-        print("These files are missing from the assets folder (" + ASSETS + "):", file=sys.stderr)
+        print(
+            "These files are missing from the assets folder (" + ASSETS + "):",
+            file=sys.stderr,
+        )
         for name in missing:
             print("  " + name, file=sys.stderr)
         sys.exit(1)
