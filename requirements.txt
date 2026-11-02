@@ -1,0 +1,2 @@
+# Python 3.14 is supported from pygame-ce 2.5.6
+pygame-ce>=2.5.6

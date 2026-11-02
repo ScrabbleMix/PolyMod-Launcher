@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# PyInstaller output
+build/
+dist/
+
+# Launcher settings and cache (they are stored in the user's home folder, not in the repository)
+.fnf_launcher.json
+.fnf_mods_index.json
+
+# Editors and system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
