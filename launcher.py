@@ -42,7 +42,7 @@ if "--pick-folder" in sys.argv:
 import pygame
 
 GB_GAME_ID = 8694
-VERSION_LINES = ("Friday Night Funkin V-Slice", "PolyMod Launcher 0.2.3")
+VERSION_LINES = ("Friday Night Funkin V-Slice", "PolyMod Launcher 0.2.5")
 SETTINGS_FILE = os.path.join(os.path.expanduser("~"), ".fnf_launcher.json")
 DEFAULT_CFG = {"game_dir": "", "bg_music": True, "sfx": True, "accent": "FDE871",
                "close_on_play": False, "lang": "en", "animations": True}
